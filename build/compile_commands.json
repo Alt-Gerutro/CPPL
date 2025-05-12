@@ -1,0 +1,17 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++20",
+      "-fPIC",
+      "-I../include",
+      "-c",
+      "-o",
+      "../src/cppl.o",
+      "../src/cppl.cpp"
+    ],
+    "directory": "/home/gerutro/Documents/CPPL/build",
+    "file": "/home/gerutro/Documents/CPPL/src/cppl.cpp",
+    "output": "/home/gerutro/Documents/CPPL/src/cppl.o"
+  }
+]

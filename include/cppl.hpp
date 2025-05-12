@@ -2,7 +2,7 @@
 #define _CPPL_H
 
 #include <string>
-#include <vector>
+#include <fstream>
 #include <source_location>
 
 class Logger {
@@ -10,18 +10,18 @@ private:
     std::string format;
     std::string name;
     std::string log_string;
-    bool is_file_logging = false;
-    std::ofstream log_file;
+    bool is_file_logging;
+    std::ofstream log_file_stream;
     void preplog(int level, int line, int col, const std::string &filename, const std::string &funcname, const std::string &msg);
 
 public:
     Logger(const std::string format, std::string name);
     Logger(const std::string format, std::string name, std::string log_file);
 
-    void log(int level, const std::string msg, const std::source_location &loc = std::source_location::current());
-    void log(int level, const std::string msg, std::string filename, const std::source_location &loc = std::source_location::current());
-
     ~Logger();
+
+    void log(int level, const std::string msg, const std::source_location &loc = std::source_location::current());
+
 };
 
 typedef enum {

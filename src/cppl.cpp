@@ -1,5 +1,7 @@
+#include <ios>
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <cppl.hpp>
 
 using namespace std;
@@ -17,7 +19,7 @@ cpair level_names[] = {
 };
 
 class Formatting {
-    public:
+public:
     static string format_string(const string &format, vector<pair <string, string>> &replacements) {
         string out = format;
         for (const auto &repl : replacements) {
@@ -35,24 +37,20 @@ class Formatting {
     }
 };
 
-Logger::Logger(const string format, string name) 
+Logger::Logger(const string format, string name)
     : format(format), name(name) {}
 
-Logger::Logger(const std::string format, std::string name, std::string log_file)
-    : format(format), name(name), log_file(log_file) {
+Logger::Logger(const string format, string name, string log_file)
+    : format(format), name(name) {
+        log_file_stream.open(log_file, ios_base::app);
         is_file_logging = true;
     }
 
 Logger::~Logger() {
-    if (is_file_logging) log_file.close();
-    if (log_file.is_open()) log_file.close();
+    if (log_file_stream.is_open()) log_file_stream.close();
 }
 
 void Logger::preplog(int level, int line, int col, const string &filename, const string &funcname, const string &msg) {
-    if (level < 0 || line < 0 || col < 0) {
-        invalid_argument("Invalid argument(level || line || col)");
-        throw 1;
-    }
 
     vector<pair<string, string>> replacements;
     replacements.push_back({"_FILE_", filename});
@@ -63,29 +61,13 @@ void Logger::preplog(int level, int line, int col, const string &filename, const
     replacements.push_back({"_LEVEL_", level_names[level].name});
     replacements.push_back({"_MSG_", msg});
     log_string = Formatting::format_string(format, replacements);
-    
 }
 
 void Logger::log(int level, const string msg, const source_location &loc) {
     preplog(level, loc.line(), loc.column(), loc.file_name(), loc.function_name(), msg);
-    if(is_file_logging) {
-        
+    if (log_file_stream.is_open()) {
+        this->log_file_stream << log_string << endl;
     } else {
         cout << log_string << endl;
-    }
-}
-
-void Logger::log(int level, const string msg, string filename, const source_location &loc) {
-    
-    if (!log_file.is_open()) {
-        cerr << "Error opening file" << endl;
-        throw 1;
-    }
-    preplog(level, loc.line(), loc.column(), loc.file_name(), loc.function_name(), msg);
-
-    log_file << log_string << endl;
-
-    if (!is_file_logging) {
-        log_file.close();
     }
 }

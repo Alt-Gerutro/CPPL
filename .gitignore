@@ -1,3 +1,14 @@
+# Tests
 /test/
+
+# Build
+/build/cppl
+
+# Object files & clangd files
 *.o
+*.d
+
+# IDE's
+/.zed
 /.vscode
+/.cache
