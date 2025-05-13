@@ -12,6 +12,7 @@ private:
     std::string log_string;
     bool is_file_logging;
     std::ofstream log_file_stream;
+
     void preplog(int level, int line, int col, const std::string &filename, const std::string &funcname, const std::string &msg);
 
 public:
@@ -21,10 +22,9 @@ public:
     ~Logger();
 
     void log(int level, const std::string msg, const std::source_location &loc = std::source_location::current());
-
 };
 
-typedef enum {
+enum cppl_level {
     CPPL_FATAL,
     CPPL_ALERT,
     CPPL_CRIT,
@@ -34,11 +34,6 @@ typedef enum {
     CPPL_INFO,
     CPPL_DEBUG,
     CPPL_UNDEFINED
-} CPPL_Level_t;
-
-extern struct cpair {
-    std::string name;
-    CPPL_Level_t value;
-} level_names[];
+};
 
 #endif // _CPPL_H

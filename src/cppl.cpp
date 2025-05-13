@@ -6,16 +6,16 @@
 
 using namespace std;
 
-cpair level_names[] = {
-    {"FATAL", CPPL_FATAL},
-    {"ALERT", CPPL_ALERT},
-    {"CRIT", CPPL_CRIT},
-    {"ERR", CPPL_ERR},
-    {"WARN", CPPL_WARN},
-    {"NOTICE", CPPL_NOTICE},
-    {"INFO", CPPL_INFO},
-    {"DEBUG", CPPL_DEBUG},
-    {"UNDEF", CPPL_UNDEFINED}
+vector<string> level_names = {
+    "FATAL",
+    "ALERT",
+    "CRIT",
+    "ERR",
+    "WARN",
+    "NOTICE",
+    "INFO",
+    "DEBUG",
+    "UNDEF"
 };
 
 class Formatting {
@@ -51,14 +51,13 @@ Logger::~Logger() {
 }
 
 void Logger::preplog(int level, int line, int col, const string &filename, const string &funcname, const string &msg) {
-
     vector<pair<string, string>> replacements;
     replacements.push_back({"_FILE_", filename});
     replacements.push_back({"_LINE_", to_string(line)});
     replacements.push_back({"_COL_", to_string(col)});
     replacements.push_back({"_FUNC_", funcname});
     replacements.push_back({"_LOGGER_", name});
-    replacements.push_back({"_LEVEL_", level_names[level].name});
+    replacements.push_back({"_LEVEL_", level_names[level]});
     replacements.push_back({"_MSG_", msg});
     log_string = Formatting::format_string(format, replacements);
 }
