@@ -18,6 +18,7 @@ vector<string> level_names = {
     "UNDEF"
 };
 
+/* Class for formatting string with template */
 class Formatting {
 public:
     static string format_string(const string &format, vector<pair <string, string>> &replacements) {
@@ -62,11 +63,20 @@ void Logger::preplog(int level, int line, int col, const string &filename, const
     log_string = Formatting::format_string(format, replacements);
 }
 
-void Logger::log(int level, const string msg, const source_location &loc) {
+void Logger::log(int level, const string msg, const string fmt, const source_location &loc) {
+    string old_fmt = "";
+    if (!fmt.empty()) {
+        string old_fmt = this->format;
+        this->format = fmt;
+    }
     preplog(level, loc.line(), loc.column(), loc.file_name(), loc.function_name(), msg);
     if (log_file_stream.is_open()) {
         this->log_file_stream << log_string << endl;
     } else {
         cout << log_string << endl;
+    }
+
+    if (!old_fmt.empty()) {
+        this->format = old_fmt;
     }
 }

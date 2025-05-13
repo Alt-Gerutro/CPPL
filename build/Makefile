@@ -20,6 +20,7 @@ precomp:
 $(TARGET): $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) -o $(TARGET)
 	cp $(INCLUDE_DIR)/cppl.hpp $(BUILD_DIR)
+	cp ../LICENSE $(BUILD_DIR)
 
 %.o: %.cpp
 	$(CC) $(CXXFLAGS) -MMD -MP -c -o $@ $<
