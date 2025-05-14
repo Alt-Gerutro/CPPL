@@ -30,5 +30,8 @@ _For clear everything use `make clean`_
 
 ----
 
+## License
+This project is licensed under the [MIT License](LICENSE).
+
 # Special thanks
 Me(?)
