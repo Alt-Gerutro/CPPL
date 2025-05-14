@@ -1,19 +1,5 @@
 #include <cppl.hpp>
-#include <fstream>
 #include <string>
-
-std::string get_string(std::string path) {
-    std::string out;
-    std::string line;
-    std::ifstream f(path);
-    if (f.is_open()) {
-        while (std::getline(f, line)) {
-            out.append(line).append("\n");
-        }
-    }
-
-    return out;
-}
 
 int main() {
     const std::string fmt = "[_LOGGER_] {_FILE_:_FUNC_:_LINE_:_COL_} _LEVEL_: _MSG_";
@@ -42,4 +28,6 @@ int main() {
     duplicate_format_macros_logger.log(CPPL_INFO, "2 Levels in a row", "_LEVEL_, _LEVEL_");
     duplicate_format_macros_logger.log(CPPL_INFO, "2 Levels not in a row", "_LEVEL_ _MSG_, _MSG_, _LOGGER_ _LEVEL_");
     duplicate_format_macros_logger.log(CPPL_INFO, "MORE Levels in a row", "_LEVEL_, _LEVEL_, _LEVEL_, _LEVEL_, _LEVEL_, _LEVEL_, _LEVEL_, _LEVEL_, _LEVEL_, _LEVEL_, _LEVEL_, _LEVEL_");
+
+    return 0;
 }

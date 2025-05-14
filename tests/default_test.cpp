@@ -1,19 +1,5 @@
 #include <cppl.hpp>
-#include <fstream>
 #include <string>
-
-std::string get_string(std::string path) {
-    std::string out;
-    std::string line;
-    std::ifstream f(path);
-    if (f.is_open()) {
-        while (std::getline(f, line)) {
-            out.append(line).append("\n");
-        }
-    }
-
-    return out;
-}
 
 int main() {
     const std::string fmt = "[_LOGGER_] {_FILE_:_FUNC_:_LINE_:_COL_} _LEVEL_: _MSG_";

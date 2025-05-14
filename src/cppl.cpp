@@ -18,20 +18,20 @@ vector<string> level_names = {
     "UNDEF"
 };
 
-/* Class for formatting string with template */
+/* Class for formatting string from template */
 class Formatting {
 public:
     static string format_string(const string &format, vector<pair <string, string>> &replacements) {
-        string out = format;
+        string out = format;    // Out string
         for (const auto &repl : replacements) {
-            const string &target = repl.first;
-            const string &value = repl.second;
-            size_t pos = 0;
+            const string &target = repl.first; // What needs to be replaced
+            const string &value = repl.second; // To what it be replaced
+            size_t pos = 0; // Position of cursor
             while (true) {
-                pos = out.find(target, pos);
-                if (pos == string::npos) break;
-                out.replace(pos, target.length(), value);
-                pos += value.length();
+                pos = out.find(target, pos); // Overwrite position to what to be replaced
+                if (pos == string::npos) break; // Break if string is ended
+                out.replace(pos, target.length(), value); // Replace out string in position
+                pos += value.length(); // Jump over replaced string
             }
         }
         return out;
@@ -43,6 +43,15 @@ Logger::Logger(const string format, string name)
 
 Logger::Logger(const string format, string name, string log_file)
     : format(format), name(name) {
+        log_file_stream.open(log_file, ios_base::app);
+        is_file_logging = true;
+    }
+
+Logger::Logger(const string format, string name, int filter)
+    : format(format), name(name), filter(filter) {}
+
+Logger::Logger(const string format, string name, int filter, string log_file)
+    : format(format), name(name), filter(filter) {
         log_file_stream.open(log_file, ios_base::app);
         is_file_logging = true;
     }
@@ -64,19 +73,21 @@ void Logger::preplog(int level, int line, int col, const string &filename, const
 }
 
 void Logger::log(int level, const string msg, const string fmt, const source_location &loc) {
-    string old_fmt = "";
-    if (!fmt.empty()) {
-        string old_fmt = this->format;
-        this->format = fmt;
-    }
-    preplog(level, loc.line(), loc.column(), loc.file_name(), loc.function_name(), msg);
-    if (log_file_stream.is_open()) {
-        this->log_file_stream << log_string << endl;
-    } else {
-        cout << log_string << endl;
-    }
+    if (level <= this->filter) {
+        string old_fmt = "";
+        if (!fmt.empty()) {
+            string old_fmt = this->format;
+            this->format = fmt;
+        }
+        preplog(level, loc.line(), loc.column(), loc.file_name(), loc.function_name(), msg);
+        if (log_file_stream.is_open()) {
+            this->log_file_stream << log_string << endl;
+        } else {
+            cout << log_string << endl;
+        }
 
-    if (!old_fmt.empty()) {
-        this->format = old_fmt;
+        if (!old_fmt.empty()) {
+            this->format = old_fmt;
+        }
     }
 }
