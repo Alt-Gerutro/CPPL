@@ -10,14 +10,10 @@ Packages for compile: gcc
 
 ----
 
-## Compiling
-Compiling project on your device:
-```bash
-cd build
-make
-```
-
-and then you can see a directory `cppl` in build directory. There is all for your project: `libcppl.so`, `cppl.hpp`, `LICENSE`.
+## Building process
+Clone this repository with `git clone`.
+Change directory to `./build` and run `make`.
+After this you can see a directory `cppl` in build directory. There is all for your project: `libcppl.so`, `cppl.hpp`, `LICENSE`.
 
 _For clear everything use `make clean`_
 
